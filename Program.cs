@@ -1,15 +1,15 @@
 using Newtonsoft.Json;
-using OpcUaDeviceControlServer;
 
-public class Device
+public struct Device
 {
-	public string address { get; set; }
-	public int port { get; set; }
+	public string address;
+	public int port;
+	public string series;
 }
 
-public class Devices
+public class CollectorData
 {
-	public List<FanucCollector> collectors { get; set; }
+	public List<Collector> collectors { get; set; }
 }
 
 class Program
@@ -18,26 +18,21 @@ class Program
 	{
 		Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-		if (args.Length == 0)
-			return;
-
 		if (args.Length > 0)
 		{
 			string jsonString = args[0];
 			try
 			{
-				Fanuc fanuc = new();
-
 				List<Device> devices = JsonConvert.DeserializeObject<List<Device>>(jsonString);
-				List<FanucCollector> collectors = new();
+				List<Collector> collectors = new();
 				foreach (var device in devices)
 				{
-					FanucCollector collector = fanuc.GetCollector(device.address, (ushort)device.port, 10);
+					Collector collector = Fanuc.GetCollector(device.address, (ushort)device.port, 10, device.series);
 					collectors.Add(collector);
 				}
-				var device_list = new Devices { collectors = collectors };
+				var data = new CollectorData { collectors = collectors };
 
-				string output = JsonConvert.SerializeObject(device_list);
+				string output = JsonConvert.SerializeObject(data);
 				Console.WriteLine(output);
 			}
 			catch (Exception ex)
@@ -45,5 +40,7 @@ class Program
 				Console.WriteLine("Ошибка JSON: " + ex.Message);
 			}
 		}
+		else
+			return;
 	}
 }
