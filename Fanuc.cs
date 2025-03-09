@@ -69,6 +69,7 @@ public struct AxesData
 
 public class Collector
 {
+	public Device device = new();
 	public ModeData mode_data = new();
 	public ProgramData program_data = new();
 	public AxesData axes_data = new();
@@ -241,9 +242,9 @@ public static class Fanuc
 		return 0;
 	}
 
-	#endregion
+#endregion
 
-	#region Режимы и статусы работы 
+#region Режимы и статусы работы 
 
 	//Текущий режим работы(AUT):
 	public static string GetModeString(short mode, string series)
@@ -499,9 +500,9 @@ public static class Fanuc
 		return GetLoadExcessString(alarm, series);
 	}
 
-	#endregion
+#endregion
 
-	#region Информация по УП, функции, счетчики, инструмент 
+#region Информация по УП, функции, счетчики, инструмент 
 
 	/*   Информация по УП, функции, счетчики, инструмент 
 	*   1 Номер УП MainPrgNum	
@@ -600,7 +601,7 @@ public static class Fanuc
 
 	#endregion
 
-	#region Оси координат, скорости подачи
+#region Оси координат, скорости подачи
 
 	private static string GetUnitString(short unit)
 	{
@@ -837,7 +838,7 @@ public static class Fanuc
 	}
 	#endregion
 
-	#region Шпиндель
+#region Шпиндель
 
 	public static int GetSpindleSpeed(ushort handle)
 	{
@@ -909,7 +910,7 @@ public static class Fanuc
 	}
 	#endregion
 
-	#region Аварии, ошибки, сообщения 
+#region Аварии, ошибки, сообщения 
 
 	private static string GetAlarmString(int alarm, string series)
 	{

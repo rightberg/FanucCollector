@@ -28,6 +28,7 @@ class Program
 				foreach (var device in devices)
 				{
 					Collector collector = Fanuc.GetCollector(device.address, (ushort)device.port, 10, device.series);
+					collector.device = device;
 					collectors.Add(collector);
 				}
 				var data = new CollectorData { collectors = collectors };
